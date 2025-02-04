@@ -21,13 +21,24 @@ jobs:
 
       - name: Install Android SDK components
         run: |
-          sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+          sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.3" \
+                     "system-images;android-30;google_apis;x86_64"
 
-      - name: Start ADB server
-        run: adb start-server
+      - name: Create AVD
+        run: echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
 
-      - name: Grant permissions
-        run: adb devices
+      - name: Start AVD
+        run: |
+          emulator -avd test -no-window -no-audio -no-boot-anim &
+          adb wait-for-device
+          adb shell 'while [[ -z $(getprop sys.boot_completed) || $(getprop sys.boot_completed) != 1 ]]; do sleep 1; done'
+          adb shell input keyevent 82
+
+      - name: Start Appium server
+        run: |
+          npm install -g appium
+          appium --log-level info &
+          sleep 10  # Подождать запуска Appium
 
       - name: Install dependencies
         run: npm install
