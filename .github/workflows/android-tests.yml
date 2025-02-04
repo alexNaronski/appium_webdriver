@@ -31,6 +31,24 @@ jobs:
       - name: Verify ADB Installation
         run: adb version
       
+      - name: Run Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis_playstore
+          arch: x86_64
+          emulator-options: -no-window -no-audio -no-boot-anim
+          cores: 2
+          avd-name: test
+          force-avd-creation: true
+          emulator-boot-timeout: 600
+          emulator-port: 5554
+          disable-animations: true
+          disable-spellchecker: false
+          disable-linux-hw-accel: auto
+          enable-hw-keyboard: false
+          channel: stable
+          script: adb devices
           
       - name: Install Android SDK
         uses: reactivecircus/android-emulator-runner@v2
