@@ -26,17 +26,23 @@ jobs:
 
       - name: Install Android SDK and dependencies
         run: |
-          # Установим Android SDK и необходимые компоненты
           sudo apt update
-          sudo apt install -y wget unzip
+          sudo apt install -y wget unzip openjdk-11-jdk
+          
+          # Установим Android SDK командные инструменты
           wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
           unzip commandlinetools-linux-7583922_latest.zip
+          
+          # Перемещаем инструменты в правильную директорию
           sudo mv cmdline-tools /usr/local/android-sdk/
+          
+          # Настроим переменные окружения для Android SDK
           echo "export ANDROID_HOME=/usr/local/android-sdk" >> $GITHUB_ENV
-          echo "export PATH=$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH" >> $GITHUB_ENV
-          # Установим необходимые пакеты для работы с adb
-          yes | sdkmanager --licenses
-          sdkmanager "platform-tools" "platforms;android-29" "build-tools;30.0.3" "emulator"
+          echo "export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH" >> $GITHUB_ENV
+          
+          # Установим все необходимые компоненты
+          yes | /usr/local/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
+          /usr/local/android-sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-29" "build-tools;30.0.3" "emulator"
 
       - name: Start Appium server
         run: |
