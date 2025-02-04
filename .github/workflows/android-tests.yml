@@ -2,9 +2,9 @@ name: Android Tests
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
   android-tests:
@@ -32,7 +32,8 @@ jobs:
           emulator-options: "-no-window -no-audio -gpu off"
           script: |
             adb devices
-            adb install app/app-release.apk
+            adb install app/android.wdio.native.app.v1.0.8.apk
+            chmod +x app/chromedriver
             npm install -g appium
             appium --log-level error &
             sleep 10

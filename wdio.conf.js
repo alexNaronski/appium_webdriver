@@ -57,12 +57,12 @@ exports.config = {
             'appium:udid': 'emulator-5554',
             'appium:appPackage': 'com.wdiodemoapp',
             'appium:appActivity': '.MainActivity',
-            'appium:app': 'app\\android.wdio.native.app.v1.0.8.apk',
+            'appium:app': 'app/android.wdio.native.app.v1.0.8.apk',
             'appium:enableWebviewDetailsCollection': true,
             'appium:allowInsecure': ['chromedriver_autodownload'],
             "appium:showChromedriverLog": true,
             'appium:chromedriverAutodownload': true,
-            'appium:chromedriverExecutable': 'app\\chromedriver.exe',
+            'appium:chromedriverExecutable': 'app/chromedriver.exe',
             'appium:newCommandTimeout': 600
         }
     ],
