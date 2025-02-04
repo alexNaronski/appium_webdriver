@@ -23,6 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
+          npm install appium-chromedriver@5.6.77
 
       - name: Start Appium server
         run: |
