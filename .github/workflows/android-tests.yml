@@ -28,21 +28,21 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y wget unzip openjdk-11-jdk
-          
-          # Установим Android SDK командные инструменты
+
+          # Установим Android SDK tools
           wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
           unzip commandlinetools-linux-7583922_latest.zip
-          
-          # Перемещаем инструменты в правильную директорию
-          sudo mv cmdline-tools /usr/local/android-sdk/
-          
-          # Настроим переменные окружения для Android SDK
+
+          # Переместим инструменты в правильную директорию
+          sudo mv cmdline-tools /usr/local/android-sdk/cmdline-tools
+
+          # Настроим переменные окружения
           echo "export ANDROID_HOME=/usr/local/android-sdk" >> $GITHUB_ENV
           echo "export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH" >> $GITHUB_ENV
           
-          # Установим все необходимые компоненты
+          # Установим необходимые инструменты
+          yes | /usr/local/android-sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-29" "build-tools;30.0.3" "emulator"
           yes | /usr/local/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
-          /usr/local/android-sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-29" "build-tools;30.0.3" "emulator"
 
       - name: Start Appium server
         run: |
