@@ -33,7 +33,8 @@ jobs:
           wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
           unzip commandlinetools-linux-7583922_latest.zip
 
-          # Переместим инструменты в правильную директорию
+          # Создадим директорию для Android SDK и переместим инструменты
+          sudo mkdir -p /usr/local/android-sdk/cmdline-tools
           sudo mv cmdline-tools /usr/local/android-sdk/cmdline-tools
 
           # Настроим переменные окружения
