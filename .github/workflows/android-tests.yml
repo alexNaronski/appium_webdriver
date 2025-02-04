@@ -20,6 +20,18 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Install Android SDK Platform-Tools
+        run: |
+            sudo apt-get update
+            sudo apt-get install -y android-sdk-platform-tools
+
+      - name: Add Android SDK to PATH
+        run: echo 'export PATH=$PATH:$ANDROID_HOME/platform-tools' >> $GITHUB_ENV
+
+      - name: Verify ADB Installation
+        run: adb version
+      
+          
       - name: Install Android SDK
         uses: reactivecircus/android-emulator-runner@v2
         with:
