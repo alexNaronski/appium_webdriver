@@ -38,7 +38,11 @@ jobs:
       - name: Install Android SDK components
         run: |
           echo "y" | sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.3" \
-                               "system-images;android-30;google_apis;x86_64"
+                               "system-images;android-30;google_apis;x86_64" "emulator"
+
+      - name: Add emulator to PATH
+        run: |
+          echo "$ANDROID_HOME/emulator" >> $GITHUB_PATH
 
       - name: Create AVD
         run: |
@@ -55,7 +59,7 @@ jobs:
         run: |
           npm install -g appium
           appium --log-level info &
-          sleep 10  # Подождать запуска Appium
+          sleep 10
 
       - name: Install Node.js dependencies
         run: npm install
@@ -64,12 +68,12 @@ jobs:
         run: npx wdio run wdio.conf.js
 
       - name: Stop AVD
-        if: always()  # Остановить эмулятор, даже если тесты упали
+        if: always()
         run: |
           adb emu kill
 
       - name: Dump logs
-        if: failure()  # Вывести логи, если тесты упали
+        if: failure()
         run: |
           adb logcat -d > logcat.txt
           cat logcat.txt
