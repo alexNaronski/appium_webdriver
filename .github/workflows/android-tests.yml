@@ -43,9 +43,11 @@ jobs:
           echo "export ANDROID_HOME=/usr/local/android-sdk" >> $GITHUB_ENV
           echo "export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH" >> $GITHUB_ENV
 
-          # Установим необходимые инструменты и лицензионные соглашения без флага --accept
-          yes | /usr/local/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/usr/local/android-sdk "platform-tools" "platforms;android-29" "build-tools;30.0.3" "emulator"
-          /usr/local/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
+          # Установим необходимые инструменты
+          /usr/local/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/usr/local/android-sdk "platform-tools" "platforms;android-29" "build-tools;30.0.3" "emulator" --no_https
+
+          # Примем лицензии вручную
+          /usr/local/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses --no_https
 
       - name: Start Appium server
         run: |
