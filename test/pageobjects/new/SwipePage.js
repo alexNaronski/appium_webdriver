@@ -3,8 +3,8 @@ import BasePage from './BasePage';
 class SwipePage extends BasePage {
     selectors = {
         webDriverLogo: '~WebdriverIO logo',
-        card: '//android.view.ViewGroup[@content-desc="card"]',
-        swipeScreen: '//android.widget.ScrollView[@content-desc="Swipe-screen"]/android.view.ViewGroup'
+        card: '(//androidx.cardview.widget.CardView[@resource-id="com.wildberries.ru:id/imagesPagerCard"])/android.widget.FrameLayout',
+        swipeScreen1: '//android.widget.GridView[@resource-id="com.wildberries.ru:id/contentRecycler"]/androidx.compose.ui.platform.ComposeView'
     };
 
     async waitForPageToLoad() {

@@ -4,7 +4,9 @@ let CAROUSEL_RECTANGLES;
 
 class Carousel extends Gestures {
     get carousel() {
-        return $('//android.view.ViewGroup[@content-desc="Carousel"]/android.view.ViewGroup/android.view.ViewGroup');
+        //return $('//android.view.ViewGroup[@content-desc="Carousel"]/android.view.ViewGroup/android.view.ViewGroup');
+        
+        return $('//android.widget.GridView[@resource-id="com.wildberries.ru:id/contentRecycler"]/androidx.compose.ui.platform.ComposeView');
     }
     get openSourceCard() {
         return $(this.locatorStrategy("__CAROUSEL_ITEM_0_READY__"));
@@ -23,6 +25,12 @@ class Carousel extends Gestures {
     }
     get compatibleCard() {
         return $(this.locatorStrategy("__CAROUSEL_ITEM_5_READY__"));
+    }
+    get oblakoPodarkov() {
+        return $('//android.view.View[@content-desc="Рекламный баннер Облако подарков"]');
+    }
+    get first() {
+        return $('//android.widget.GridView[@resource-id="com.wildberries.ru:id/contentRecycler"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[2]/android.view.View');
     }
 
     locatorStrategy(selector) {
@@ -53,8 +61,8 @@ class Carousel extends Gestures {
 
     async getCarouselRectangles() {
         if (!CAROUSEL_RECTANGLES) {
-            const carouselElement = await this.carousel; // Убедимся, что это элемент
-            const elementId = carouselElement.elementId; // Получаем elementId
+            const carouselElement = await this.carousel;
+            const elementId = carouselElement.elementId;
             if (!elementId) {
                 console.error("[getCarouselRectangles] Element ID is missing for carousel.");
                 throw new Error("Carousel element is not found or does not have a valid ID.");

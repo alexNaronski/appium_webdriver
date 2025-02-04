@@ -55,6 +55,9 @@ exports.config = {
             platformName: 'Android',
             'appium:automationName': 'UiAutomator2',
             'appium:udid': 'emulator-5554',
+            //'appium:appPackage': 'com.wildberries.ru',
+            //'appium:appActivity': 'ru.wildberries.SplashActivity',
+            //'appium:app': 'C:\\Work\\mobile_tests\\app\\com.wildberries.ru_60800_rs.apk',
             'appium:appPackage': 'com.wdiodemoapp',
             'appium:appActivity': '.MainActivity',
             'appium:app': 'app/android.wdio.native.app.v1.0.8.apk',
@@ -108,7 +111,7 @@ exports.config = {
     // baseUrl: 'http://localhost:8080',
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 10000,
+    waitforTimeout: 100000,
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response

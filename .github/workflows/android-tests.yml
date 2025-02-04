@@ -6,7 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -17,16 +16,33 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
+      - name: Cache Android SDK
+        uses: actions/cache@v3
+        with:
+          path: ~/android-sdk
+          key: android-sdk-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            android-sdk-${{ runner.os }}-
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
 
       - name: Install Android SDK components
         run: |
-          sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.3" \
-                     "system-images;android-30;google_apis;x86_64"
+          echo "y" | sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.3" \
+                               "system-images;android-30;google_apis;x86_64"
 
       - name: Create AVD
-        run: echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
+        run: |
+          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
 
       - name: Start AVD
         run: |
@@ -41,8 +57,19 @@ jobs:
           appium --log-level info &
           sleep 10  # Подождать запуска Appium
 
-      - name: Install dependencies
+      - name: Install Node.js dependencies
         run: npm install
 
       - name: Run tests
         run: npx wdio run wdio.conf.js
+
+      - name: Stop AVD
+        if: always()  # Остановить эмулятор, даже если тесты упали
+        run: |
+          adb emu kill
+
+      - name: Dump logs
+        if: failure()  # Вывести логи, если тесты упали
+        run: |
+          adb logcat -d > logcat.txt
+          cat logcat.txt
