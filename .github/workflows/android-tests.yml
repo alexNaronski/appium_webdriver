@@ -2,39 +2,75 @@ name: Android Tests
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
   pull_request:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
-  android-tests:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Java
+        uses: actions/setup-java@v2
         with:
-          node-version: '18'
+          distribution: 'adopt'
+          java-version: '11'
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Download APK and ChromeDriver
+        run: |
+          mkdir -p appium_webdriver/app
+          curl -o appium_webdriver/app/app-debug.apk http://example.com/path/to/app-debug.apk
+          curl -o appium_webdriver/app/chromedriver http://example.com/path/to/chromedriver
+          chmod +x appium_webdriver/app/chromedriver
 
-      - name: Start Android Emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 30
-          target: default
-          arch: x86_64
-          profile: pixel
-          emulator-options: "-no-window -no-audio -gpu off"
-          script: |
-            adb devices
-            adb install app/android.wdio.native.app.v1.0.8.apk
-            chmod +x app/chromedriver
-            npm install -g appium
-            appium --log-level error &
-            sleep 10
-            npx wdio run wdio.conf.js
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Install emulator dependencies
+        run: sudo apt-get update && sudo apt-get install -y libvirt-daemon-system libvirt-clients bridge-utils libglu1-mesa
+
+      - name: Create AVD
+        run: |
+          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
+          echo "hw.gpu.enabled=no" >> ~/.android/avd/test.avd/config.ini
+          echo "hw.gpu.mode=off" >> ~/.android/avd/test.avd/config.ini
+          echo "snapshot.present=false" >> ~/.android/avd/test.avd/config.ini
+
+      - name: Start emulator
+        run: |
+          $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -gpu swiftshader_indirect -accel off -no-snapshot-save &
+          adb wait-for-device
+          sleep 60
+
+      - name: Restart ADB server
+        run: |
+          adb kill-server
+          adb start-server
+          adb devices
+
+      - name: Check emulator status
+        run: |
+          adb devices
+          adb shell getprop init.svc.bootanim
+          until [[ $(adb shell getprop sys.boot_completed) -eq 1 ]]; do sleep 5; done
+
+      - name: Install Appium and WebDriverIO
+        run: |
+          npm install -g appium
+          npm install
+
+      - name: Run Tests
+        run: |
+          npx wdio run wdio.conf.js
+
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          npm install -g allure-commandline --save-dev
+          allure generate allure-results --clean -o allure-report
+          allure open allure-report
