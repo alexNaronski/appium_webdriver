@@ -1,13 +1,10 @@
-import { config as baseConfig } from './wdio.shared.sauce.conf.js';
+const { config: baseConfig } = require('./wdio.shared.sauce.conf.js');
 
 const buildName = `WebdriverIO Native Demo app, Android Emulators: ${new Date().getTime()}`;
 
-export const config = {
+module.exports.config = {
     ...baseConfig,
 
-    // ============
-    // Specs
-    // ============
     specs: [
         '../../test/specs/**/*.js',
     ],
@@ -17,9 +14,6 @@ export const config = {
             platformName: 'Android',
             'appium:automationName': 'UiAutomator2',
             'appium:udid': 'emulator-5554',
-            //'appium:appPackage': 'com.wildberries.ru',
-            //'appium:appActivity': 'ru.wildberries.SplashActivity',
-            //'appium:app': 'C:\\Work\\mobile_tests\\app\\com.wildberries.ru_60800_rs.apk',
             'appium:appPackage': 'com.wdiodemoapp',
             'appium:appActivity': '.MainActivity',
             'appium:app': 'app/android.wdio.native.app.v1.0.8.apk',
@@ -29,11 +23,9 @@ export const config = {
             'appium:chromedriverAutodownload': true,
             'appium:chromedriverExecutable': 'app/chromedriver.exe',
             'appium:newCommandTimeout': 600,
-            'sauce:options':{
-                // Group builds by build name
+            'sauce:options': {
                 build: buildName,
-                // Provide the Appium version
-                appiumVersion: '2.0.0'
+                appiumVersion: '2.0.0',
             },
         },
     ],
