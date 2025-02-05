@@ -70,7 +70,7 @@ jobs:
             REGION: us
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-        run: npm run android.sauce.emulators.app.eu
+        run: npm run android.sauce.emulators.app.us
 
     # Not needed now we are running on Sauce Labs
     #   - name: 💾 Save server output
