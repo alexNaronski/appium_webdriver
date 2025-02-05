@@ -54,6 +54,9 @@ jobs:
 
       - name: 📬 Upload App to Sauce Labs
         if: steps.check-deps.outputs.skip != 'true'
+        env:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
         run: |
             curl -v \
                 -F "payload=@./apps/android.wdio.native.app.v1.0.8.apk" \
