@@ -29,5 +29,5 @@ module.exports.config = {
             },
         },
     ],
-    maxInstances: 25,
+    maxInstances: 1,
 };
