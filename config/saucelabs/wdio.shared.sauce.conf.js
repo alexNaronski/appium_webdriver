@@ -1,7 +1,6 @@
-import type { Options } from '@wdio/types';
 import { config as baseConfig } from '../wdio.shared.conf.js';
 
-export const config: WebdriverIO.Config = {
+export const config = {
     ...baseConfig,
 
     // ========
@@ -26,7 +25,7 @@ export const config: WebdriverIO.Config = {
     // in via the `region` property. Available short handles for regions are `us` (default) and `eu`.
     // These regions are used for the Sauce Labs Virtual cloud and the Sauce Labs Real Device Cloud.
     // If you don't provide the region, it defaults to `us`.
-    region: process.env.REGION as Options.SauceRegions || 'us',
+    region: process.env.REGION || 'us',
 
     // Increase for real device support
     connectionRetryTimeout: 180000,
