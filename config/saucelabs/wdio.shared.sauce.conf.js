@@ -7,7 +7,7 @@ module.exports.config = {
         ...baseConfig.services || [],
         [
             'sauce',
-            {},
+            {region: process.env.REGION || 'us',},
         ],
     ],
 
