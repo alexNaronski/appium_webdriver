@@ -68,19 +68,28 @@ jobs:
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
         run: npm run android.sauce.emulators.app.us
 
-      # Шаги для генерации и публикации Allure отчёта
+      # Установка Allure CLI
+      - name: Install Allure CLI
+        if: steps.check-deps.outputs.skip != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y allure
+
+      # Генерация Allure отчёта
       - name: 📊 Generate Allure Report
         if: steps.check-deps.outputs.skip != 'true'
         run: |
-          npx allure generate allure-results --clean -o allure-report
+          allure generate allure-results --clean -o allure-report
 
+      # Загрузка Allure отчёта как артефакта
       - name: 📤 Upload Allure Report as Artifact
         if: steps.check-deps.outputs.skip != 'true'
-        uses: actions/upload-artifact@v4 # Обновлено до v4
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: allure-report/
 
+      # Публикация Allure отчёта
       - name: 🚀 Publish Allure Report
         if: steps.check-deps.outputs.skip != 'true'
         uses: simple-elf/allure-report-action@v1
