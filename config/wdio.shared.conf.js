@@ -9,7 +9,14 @@ module.exports.config = {
     connectionRetryCount: 3,
     services: [],
     framework: 'mocha',
-    reporters: ['spec'],
+    reporters: [
+        'spec',
+        ['allure', {
+            outputDir: 'allure-results',
+            disableWebdriverStepsReporting: false,
+            disableWebdriverScreenshotsReporting: false,
+        }]
+    ],
     mochaOpts: {
         ui: 'bdd',
         timeout: 3 * 60 * 1000,

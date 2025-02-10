@@ -42,10 +42,11 @@ exports.config = {
     logLevel: 'info',
     bail: 0,
     waitforTimeout: 100000,
-    reporters: ['spec',
+    reporters: [
+        'spec',
         ['allure', {
             outputDir: 'allure-results',
-            disableWebdriverStepsReporting: true,
+            disableWebdriverStepsReporting: false,
             disableWebdriverScreenshotsReporting: false,
         }]
     ],
