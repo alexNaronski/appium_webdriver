@@ -3,9 +3,9 @@ name: Functional Android App Tests
 on:
   workflow_dispatch:
   push:
+  pull_request:
     branches:
       - master
-  pull_request:
   pull_request_target:
 
 jobs:
