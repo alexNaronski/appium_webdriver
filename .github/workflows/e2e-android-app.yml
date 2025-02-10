@@ -11,9 +11,6 @@ on:
 jobs:
   android-app:
     runs-on: ubuntu-latest
-    # Src: https://hugo.alliau.me/posts/2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets.html#share-your-secrets-with-dependabot
-    # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]".
-    # Otherwise, clone it normally.
 
     steps:
       - name: ⬇️ Checkout Repository
@@ -71,12 +68,3 @@ jobs:
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
         run: npm run android.sauce.emulators.app.us
-
-    # Not needed now we are running on Sauce Labs
-    #   - name: 💾 Save server output
-    #     if: failure()
-    #     uses: actions/upload-artifact@v4
-    #     with:
-    #         name: android-runner-output
-    #         path: |
-    #             logs/
