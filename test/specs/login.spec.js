@@ -13,6 +13,7 @@ describe('Login Test', () => {
         await loginPage.verifyLoginPageElements()
     });
 
+    
     it('should login with valid credentials', async () => {
         await loginPage.navigateToTab('Login');
         await loginPage.enterEmail(testUser.email)
