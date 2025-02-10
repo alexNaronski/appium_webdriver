@@ -61,8 +61,6 @@ jobs:
                     -F name=wdio-demo-app-android.apk \
                     -u "${{ secrets.SAUCE_USERNAME }}:${{ secrets.SAUCE_ACCESS_KEY }}" \
                     'https://api.us-west-1.saucelabs.com/v1/storage/upload'
-          
-          
 
       - name: 📲 Run Tests on an Android Emulator
         if: steps.check-deps.outputs.skip != 'true'
@@ -71,3 +69,22 @@ jobs:
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
         run: npm run android.sauce.emulators.app.us
+
+      # Шаги для генерации и публикации Allure отчёта
+      - name: 📊 Generate Allure Report
+        if: steps.check-deps.outputs.skip != 'true'
+        run: |
+          npx allure generate allure-results --clean -o allure-report
+
+      - name: 📤 Upload Allure Report as Artifact
+        if: steps.check-deps.outputs.skip != 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report/
+
+      - name: 🚀 Publish Allure Report
+        if: steps.check-deps.outputs.skip != 'true'
+        uses: simple-elf/allure-report-action@v1
+        with:
+          allure-results: allure-results
