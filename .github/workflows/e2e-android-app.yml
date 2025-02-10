@@ -32,24 +32,44 @@ jobs:
         run: |
           npm ci
 
+      - name: Check for excluded dependencies
+        id: check-deps
+        if: github.actor == 'dependabot[bot]'
+        run: |
+            if echo "${{ github.event.pull_request.title }}" | grep -Eq "appium|appium-uiautomator2-driver|appium-xcuitest-driver"; then
+              echo "Skipping tests due to dependency update"
+              echo "::set-output name=skip::true"
+            fi
+
       - name: 📦 Download app
+        if: steps.check-deps.outputs.skip != 'true'
         run: |
             mkdir -p apps
             wget https://github.com/webdriverio/native-demo-app/releases/download/v1.0.8/android.wdio.native.app.v1.0.8.apk -P apps
 
+      - name: 📬 Upload App to Sauce Labs
+        if: steps.check-deps.outputs.skip != 'true'
+        env:
+              SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+              SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+        run: |
+                curl -v \
+                    -F "payload=@./app/android.wdio.native.app.v1.0.8.apk" \
+                    -F name=wdio-demo-app-android.apk \
+                    -u "${{ secrets.SAUCE_USERNAME }}:${{ secrets.SAUCE_ACCESS_KEY }}" \
+                    'https://api.us-west-1.saucelabs.com/v1/storage/upload'
+
       - name: 📲 Run Tests on an Android Emulator
+        if: steps.check-deps.outputs.skip != 'true'
         env:
             REGION: us
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
         run: npm run android.sauce.emulators.app.us
 
-      - name: 🛠️ Check Allure Results Before Report Generation
-        run: |
-          echo "Checking allure-results directory..."
-          ls -l allure-results || echo "No allure-results directory found!"
-
-      - name: 🏗️ Install Allure CLI
+      # Установка Allure CLI
+      - name: Install Allure CLI
+        if: steps.check-deps.outputs.skip != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y default-jre
@@ -59,25 +79,41 @@ jobs:
           sudo ln -s /opt/allure-2.27.0/bin/allure /usr/bin/allure
           allure --version
 
-      - name: 🧹 Clean Allure Results (if needed)
+      # Проверка наличия результатов перед генерацией отчёта
+      - name: 🛠 Check Allure Results
+        if: steps.check-deps.outputs.skip != 'true'
         run: |
-          rm -rf allure-report || true
-          rm -rf allure-results/history || true
+          if [ ! -d "allure-results" ] || [ -z "$(ls -A allure-results)" ]; then
+            echo "❌ No Allure results found!"
+            exit 1
+          fi
 
-      - name: 🕒 Wait Before Report Generation
-        run: sleep 5
-
+      # Генерация Allure отчёта
       - name: 📊 Generate Allure Report
+        if: steps.check-deps.outputs.skip != 'true'
         run: |
+          sleep 5  # Ожидание, чтобы убедиться, что файлы корректно записались
           allure generate allure-results --clean -o allure-report
 
-      - name: 🔍 Validate Allure Report After Generation
+      # Проверка наличия отчета после генерации
+      - name: 🛠 Check Allure Report After Generation
+        if: steps.check-deps.outputs.skip != 'true'
         run: |
           echo "Checking allure-report directory..."
           ls -l allure-report || echo "No allure-report directory found!"
-          cat allure-report/index.html || echo "No index.html found!"
 
+      # Загрузка Allure отчёта как артефакта
+      - name: 📤 Upload Allure Report as Artifact
+        if: steps.check-deps.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
+          if-no-files-found: error
+
+      # Публикация Allure отчёта
       - name: 🚀 Publish Allure Report
+        if: steps.check-deps.outputs.skip != 'true'
         uses: simple-elf/allure-report-action@v1
         with:
           allure_results: allure-results
