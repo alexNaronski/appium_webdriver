@@ -13,9 +13,6 @@ module.exports.config = {
         {
             platformName: 'Android',
             'appium:automationName': 'UiAutomator2',
-            'appium:platformVersion': '13.0', // Версия Android
-            'appium:deviceName': 'Google Pixel 7 Pro', // Название устройства
-            'appium:deviceOrientation': 'portrait',
             //'appium:udid': 'emulator-5554',
             //'appium:appPackage': 'com.wdiodemoapp',
             //'appium:appActivity': '.MainActivity',
