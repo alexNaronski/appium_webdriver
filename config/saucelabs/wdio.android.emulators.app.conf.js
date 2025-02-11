@@ -6,7 +6,7 @@ module.exports.config = {
     ...baseConfig,
 
     specs: [
-        '../../test/specs/**/*.js',
+        '../../test1/specs/**/*.js',
     ],
 
     capabilities: [
