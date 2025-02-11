@@ -5,6 +5,14 @@ class SelectCountryPage extends BasePage {
         by: '//android.view.View[@resource-id="by"]',
         searchField: '//android.widget.TextView[@text="Поиск"]',
         field: '//android.widget.EditText',
+        option: '//android.widget.TextView[@text="открывашка"]',
+        productTitle: '//android.widget.TextView[@content-desc="Товар Открывашка c деревянной ручкой"]',
+        brand: '//android.widget.TextView[@content-desc="Бренд MrSh"]',
+        rating: '//android.view.View[@resource-id="rating"]',
+        backButton: '//android.widget.ImageView[@content-desc="Назад"]',
+        fieldWithSearch: '//android.widget.TextView[@resource-id="com.wildberries.ru:id/toolbarClickTitle"]',
+
+
 
 
     }
@@ -19,10 +27,55 @@ class SelectCountryPage extends BasePage {
         await searchField.click();
     }
 
+    async clickBrand() {
+        const itemBrand = await $(this.selectors.brand);
+        await itemBrand.click();
+    }
+
+    async clickBackButton() {
+        const backButton = await $(this.selectors.backButton);
+        await backButton.click();
+    }
+
     async enterText(text) {
         const field = await $(this.selectors.field);
         await field.setValue(text);
+        const option = await $(this.selectors.option);
+        await option.click();
+    }
+
+    async enterTextWithEmojisAndEnter() {
+        const field = await $(this.selectors.field);
+        await field.clearValue();
+        await field.setValue('открывашка');
+    
+        const emojis = ['❤️', '😊', '👍'];
+        for (const emoji of emojis) {
+            await field.addValue(emoji);
+        }
+
+        /*const emojis = ['\u2764\uFE0F', '\u{1F60A}', '\u{1F44D}']; // ❤️, 😊, 👍
+        for (const emoji of emojis) {
+            await field.addValue(emoji);
+        }*/
+    
+        //await field.addValue('\uE007'); // Символ \uE007 соответствует клавише Enter
         await driver.pressKeyCode(66);
+        //открывашка❤️😊👍
+    }
+
+    async verifyTextField() {
+        const fieldWithSearch = await $(this.selectors.fieldWithSearch);
+        const actualText = await fieldWithSearch.getText();
+    
+        const expectedText = 'открывашка❤️😊👍';
+        //const expectedText = 'открывашка\u2764\uFE0F\u{1F60A}\u{1F44D}';
+    
+        if (actualText === expectedText) {
+            console.log('Текст в поле ввода совпадает с ожидаемым.');
+        } else {
+            throw new Error(`Текст в поле ввода не совпадает. Ожидалось: "${expectedText}", получено: "${actualText}"`);
+        }
     }
 
     
