@@ -59,7 +59,7 @@ class SelectCountryPage extends BasePage {
             await field.addValue(emoji);
             console.log('Текст после ввода смайлика:', await field.getText());
         }*/
-            await field.setValue('открывашка\\u2764\\uFE0F\\u{1F60A}\\u{1F44D}');
+        await field.setValue('открывашка❤️😊👍');
 
         /*const emojis = ['\u2764\uFE0F', '\u{1F60A}', '\u{1F44D}']; // ❤️, 😊, 👍
         for (const emoji of emojis) {
@@ -75,8 +75,8 @@ class SelectCountryPage extends BasePage {
         const fieldWithSearch = await $(this.selectors.fieldWithSearch);
         const actualText = await fieldWithSearch.getText();
     
-        //const expectedText = 'открывашка❤️😊👍';
-        const expectedText = 'открывашка\\u2764\\uFE0F\\u{1F60A}\\u{1F44D}';
+        const expectedText = 'открывашка❤️😊👍';
+        //const expectedText = 'открывашка\\u2764\\uFE0F\\u{1F60A}\\u{1F44D}';
     
         if (actualText === expectedText) {
             console.log('Текст в поле ввода совпадает с ожидаемым.');
