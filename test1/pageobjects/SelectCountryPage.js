@@ -45,13 +45,19 @@ class SelectCountryPage extends BasePage {
     }
 
     async enterTextWithEmojisAndEnter() {
-        const field = await $(this.selectors.field);
-        await field.clearValue();
+        const field = await $(this.selectors.field); // Находим поле ввода
+        await field.clearValue(); // Очищаем поле ввода
+    
+        // Вводим текст и смайлики с логированием
+        console.log('Текст перед вводом:', await field.getText());
         await field.setValue('открывашка');
+        console.log('Текст после ввода "открывашка":', await field.getText());
     
         const emojis = ['❤️', '😊', '👍'];
         for (const emoji of emojis) {
+            console.log('Вводим смайлик:', emoji);
             await field.addValue(emoji);
+            console.log('Текст после ввода смайлика:', await field.getText());
         }
 
         /*const emojis = ['\u2764\uFE0F', '\u{1F60A}', '\u{1F44D}']; // ❤️, 😊, 👍
