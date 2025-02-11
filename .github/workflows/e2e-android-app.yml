@@ -48,11 +48,15 @@ jobs:
         env:
               SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
               SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-              GOOGLE_DRIVE_FILE_ID: "1cLMxQllTiVAkLyIbfdZPsHf1aKsZLozY"  # Идентификатор файла
         run: |
+              # Устанавливаем gdown
+              pip install gdown
+          
               # Скачиваем файл с Google Drive
-              curl -L -o android.wdio.native.app.v1.0.8.apk \
-                   "https://drive.google.com/uc?export=download&id=$GOOGLE_DRIVE_FILE_ID"
+              gdown "https://drive.google.com/uc?id=1cLMxQllTiVAkLyIbfdZPsHf1aKsZLozY" -O android.wdio.native.app.v1.0.8.apk
+          
+              # Проверяем размер файла
+              ls -lh android.wdio.native.app.v1.0.8.apk
           
               # Загружаем файл в Sauce Labs
               curl -v \
