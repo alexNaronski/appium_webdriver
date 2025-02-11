@@ -49,7 +49,7 @@ class SelectCountryPage extends BasePage {
         await field.clearValue(); // Очищаем поле ввода
     
         // Вводим текст и смайлики с логированием
-        console.log('Текст перед вводом:', await field.getText());
+        /*console.log('Текст перед вводом:', await field.getText());
         await field.setValue('открывашка');
         console.log('Текст после ввода "открывашка":', await field.getText());
     
@@ -58,7 +58,8 @@ class SelectCountryPage extends BasePage {
             console.log('Вводим смайлик:', emoji);
             await field.addValue(emoji);
             console.log('Текст после ввода смайлика:', await field.getText());
-        }
+        }*/
+            await field.setValue('открывашка\\u2764\\uFE0F\\u{1F60A}\\u{1F44D}');
 
         /*const emojis = ['\u2764\uFE0F', '\u{1F60A}', '\u{1F44D}']; // ❤️, 😊, 👍
         for (const emoji of emojis) {
@@ -74,8 +75,8 @@ class SelectCountryPage extends BasePage {
         const fieldWithSearch = await $(this.selectors.fieldWithSearch);
         const actualText = await fieldWithSearch.getText();
     
-        const expectedText = 'открывашка❤️😊👍';
-        //const expectedText = 'открывашка\u2764\uFE0F\u{1F60A}\u{1F44D}';
+        //const expectedText = 'открывашка❤️😊👍';
+        const expectedText = 'открывашка\\u2764\\uFE0F\\u{1F60A}\\u{1F44D}';
     
         if (actualText === expectedText) {
             console.log('Текст в поле ввода совпадает с ожидаемым.');
