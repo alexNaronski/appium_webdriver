@@ -61,7 +61,7 @@ jobs:
               # Загружаем файл в Sauce Labs
               curl -v \
                    -F "payload=@./android.wdio.native.app.v1.0.8.apk" \
-                   -F name=wdio-demo-app-android.apk \
+                   -F name=wb-app-android.apk \
                    -u "$SAUCE_USERNAME:$SAUCE_ACCESS_KEY" \
                    'https://api.us-west-1.saucelabs.com/v1/storage/upload'
 
