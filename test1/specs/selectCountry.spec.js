@@ -38,6 +38,7 @@ describe('Login Test', () => {
         await expect(isDisplayed).toBe(true);
         await selectCountryPage.clickBrand()
 
+        await swipePage.waitForPageToLoad3();
 
         await expect(await Carousel.isCardActive(await Carousel.firstCard)).toBeTruthy();
         
