@@ -2,7 +2,7 @@ import BasePage from './BasePage';
 
 class SwipePage extends BasePage {
     selectors = {
-        brand: '//android.widget.TextView[@content-desc="Shiny Kitchen"]',
+        brand: '//android.widget.TextView[@content-desc="Бренд MrSh"]',
         productTitle: '//android.widget.TextView[@content-desc="Товар Открывашка c деревянной ручкой"]',
         card: '(//androidx.cardview.widget.CardView[@resource-id="com.wildberries.ru:id/imagesPagerCard"])/android.widget.FrameLayout',
         card2: '(//androidx.cardview.widget.CardView[@resource-id="com.wildberries.ru:id/imagesPagerCard"])[1]/android.widget.FrameLayout',
