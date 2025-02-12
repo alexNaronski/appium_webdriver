@@ -18,11 +18,9 @@ describe('Login Test', () => {
 
     it('should select Belarus and see homepage', async () => {
         await selectCountryPage.clickSearchField()
-        //await selectCountryPage.enterText('открывашка')
         await selectCountryPage.enterTextWithEmojisAndEnter()
-        await swipePage.waitForPageToLoad2();
+        await swipePage.waitForItemPageToLoad();
         await selectCountryPage.verifyTextField()
-        //await swipePage.waitForPageToLoad2();
 
         const swipeScreen = await swipePage.getSwipeScreen();
         const brand = await swipePage.getBrand();
@@ -39,17 +37,12 @@ describe('Login Test', () => {
         await selectCountryPage.clickBrand()
 
         await swipePage.waitForPageToLoad3();
-
-        //await expect(await Carousel.isCardActive(await Carousel.firstCard)).toBeTruthy();
         
         await Carousel.swipeLeft();
-        //await expect(await Carousel.isCardActive(await Carousel.secondCard)).toBeTruthy();
         
         await Carousel.swipeLeft();
-        //await expect(await Carousel.isCardActive(await Carousel.thirdCard)).toBeTruthy();
         
         await Carousel.swipeLeft();
-        //await expect(await Carousel.isCardActive(await Carousel.fourthCard)).toBeTruthy();
         
 
 

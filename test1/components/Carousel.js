@@ -31,24 +31,20 @@ class Carousel extends Gestures {
     async isCardActive(card) {
         console.log(`[isCardActive] Checking if card is active. Card: ${JSON.stringify(card)}`);
         try {
-            // Проверяем, что элемент отображается
             const isDisplayed = await card.isDisplayed();
             if (!isDisplayed) {
                 console.log('[isCardActive] Card is not displayed.');
                 return false;
             }
     
-            // Получаем координаты элемента
             const location = await card.getLocation();
             const size = await card.getSize();
             console.log(`[isCardActive] Card Location: ${JSON.stringify(location)}`);
             console.log(`[isCardActive] Card Size: ${JSON.stringify(size)}`);
     
-            // Получаем размеры экрана
             const screenSize = await driver.getWindowRect();
             console.log(`[isCardActive] Screen Size: ${JSON.stringify(screenSize)}`);
     
-            // Проверяем, что элемент находится в видимой области экрана
             const isInViewport = (
                 location.x >= 0 &&
                 location.y >= 0 &&

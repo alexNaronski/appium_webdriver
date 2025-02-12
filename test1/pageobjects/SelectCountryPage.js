@@ -11,10 +11,6 @@ class SelectCountryPage extends BasePage {
         rating: '//android.view.View[@resource-id="rating"]',
         backButton: '//android.widget.ImageView[@content-desc="Назад"]',
         fieldWithSearch: '//android.widget.TextView[@resource-id="com.wildberries.ru:id/toolbarClickTitle"]',
-
-
-
-
     }
 
     async selectbelarus() {
@@ -45,37 +41,18 @@ class SelectCountryPage extends BasePage {
     }
 
     async enterTextWithEmojisAndEnter() {
-        const field = await $(this.selectors.field); // Находим поле ввода
-        await field.clearValue(); // Очищаем поле ввода
-    
-        // Вводим текст и смайлики с логированием
-        /*console.log('Текст перед вводом:', await field.getText());
-        await field.setValue('открывашка');
-        console.log('Текст после ввода "открывашка":', await field.getText());
-    
-        const emojis = ['❤️', '😊', '👍'];
-        for (const emoji of emojis) {
-            console.log('Вводим смайлик:', emoji);
-            await field.addValue(emoji);
-            console.log('Текст после ввода смайлика:', await field.getText());
-        }*/
-        await field.setValue('открывашка\u2764\uFE0F\u{1F60A}\u{1F44D}');
+        const field = await $(this.selectors.field);
+        await field.clearValue();
 
-        /*const emojis = ['\u2764\uFE0F', '\u{1F60A}', '\u{1F44D}']; // ❤️, 😊, 👍
-        for (const emoji of emojis) {
-            await field.addValue(emoji);
-        }*/
+        await field.setValue('открывашка\u2764\uFE0F\u{1F60A}\u{1F44D}');
     
-        //await field.addValue('\uE007'); // Символ \uE007 соответствует клавише Enter
         await driver.pressKeyCode(66);
-        //открывашка❤️😊👍
     }
 
     async verifyTextField() {
         const fieldWithSearch = await $(this.selectors.fieldWithSearch);
         const actualText = await fieldWithSearch.getText();
     
-        //const expectedText = 'открывашка❤️😊👍';
         const expectedText = 'открывашка\u2764\uFE0F\u{1F60A}\u{1F44D}';
     
         if (actualText === expectedText) {
@@ -89,13 +66,11 @@ class SelectCountryPage extends BasePage {
     async verifySuccessAlertVisibility(title, text) {
         await expect(await $(this.selectors.successTitle)).toBeDisplayed();
         
-        // Получаем текст из successTitle и проверяем, что он содержит ожидаемый title
         const successTitleText = await $(this.selectors.successTitle).getText();
         await expect(successTitleText).toContain(title);
     
         await expect(await $(this.selectors.successAlertText)).toBeDisplayed();
         
-        // Получаем текст из successAlertText и проверяем, что он содержит ожидаемый text
         const successAlertText = await $(this.selectors.successAlertText).getText();
         await expect(successAlertText).toContain(text);
         
@@ -120,8 +95,6 @@ class SelectCountryPage extends BasePage {
     async verifyConfirmPasswordErrorVisibility() {
         await expect(await $(this.selectors.samePasswordError)).toBeDisplayed();
     }
-        
-
 
 }
 

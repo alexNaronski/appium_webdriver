@@ -14,7 +14,7 @@ class SwipePage extends BasePage {
         await $(this.selectors.card).waitForDisplayed();
     }
 
-    async waitForPageToLoad2() {
+    async waitForItemPageToLoad() {
         await $(this.selectors.card2).waitForDisplayed();
     }
 
