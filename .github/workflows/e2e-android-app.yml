@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - master
-      - new_app_tests
   pull_request:
     branches:
       - master
@@ -14,6 +13,9 @@ on:
 jobs:
   android-app:
     runs-on: ubuntu-latest
+
+    if: |
+        github.event_name == 'pull_request'
 
     steps:
       - name: ⬇️ Checkout Repository
