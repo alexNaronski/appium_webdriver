@@ -6,7 +6,7 @@ exports.config = {
     runner: 'local',
     port: 4723,
     specs: [
-        './test1/specs/**/*.js'
+        './test/specs/**/*.js'
     ],
     exclude: [
     ],
@@ -21,14 +21,6 @@ exports.config = {
             'appium:appPackage': 'com.wildberries.ru',
             'appium:appActivity': 'ru.wildberries.SplashActivity',
             'appium:app': 'C:\\Work\\mobile_tests\\app\\com.wildberries.ru_60800_rs.apk',
-            //'appium:appPackage': 'com.wdiodemoapp',
-            //'appium:appActivity': '.MainActivity',
-            //'appium:app': 'app/android.wdio.native.app.v1.0.8.apk',
-            //'appium:enableWebviewDetailsCollection': true,
-            //'appium:allowInsecure': ['chromedriver_autodownload'],
-            //"appium:showChromedriverLog": true,
-            //'appium:chromedriverAutodownload': true,
-            //'appium:chromedriverExecutable': 'app/chromedriver.exe',
             'appium:newCommandTimeout': 600
         }
     ],
