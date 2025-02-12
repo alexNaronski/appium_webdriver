@@ -6,6 +6,8 @@ on:
     branches:
       - master
   pull_request:
+    branches:
+      - master
   pull_request_target:
 
 jobs:
@@ -50,16 +52,12 @@ jobs:
               SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
               SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
         run: |
-              # Устанавливаем gdown
               pip install gdown
           
-              # Скачиваем файл с Google Drive
-              gdown "https://drive.google.com/uc?id=1cLMxQllTiVAkLyIbfdZPsHf1aKsZLozY" -O android.wdio.native.app.v1.0.8.apk
+              gdown "https://drive.google.com/uc?id=1_Jn9BWXLmk1E8SPxwyee_8fFKM3S93-U" -O android.wdio.native.app.v1.0.8.apk
           
-              # Проверяем размер файла
               ls -lh android.wdio.native.app.v1.0.8.apk
           
-              # Загружаем файл в Sauce Labs
               curl -v \
                    -F "payload=@./android.wdio.native.app.v1.0.8.apk" \
                    -F name=wb-app-android.apk \
