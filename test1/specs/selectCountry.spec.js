@@ -30,7 +30,7 @@ describe('Login Test', () => {
         await Gestures.checkIfDisplayedWithSwipe({
             scrollContainer: swipeScreen,
             searchableElement: brand,
-            maxScrolls: 7,
+            maxScrolls: 10,
             direction: DIRECTIONS.UP,
         });
 
