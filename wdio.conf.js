@@ -20,7 +20,7 @@ exports.config = {
             'appium:udid': 'emulator-5554',
             'appium:appPackage': 'com.wildberries.ru',
             'appium:appActivity': 'ru.wildberries.SplashActivity',
-            'appium:app': 'C:\\Work\\mobile_tests\\app\\com.wildberries.ru_60800_rs.apk',
+            'appium:app': 'C:\\Work\\mobile_tests\\app\\com.wildberries.ru_60803_rs.apk',
             'appium:newCommandTimeout': 600
         }
     ],
