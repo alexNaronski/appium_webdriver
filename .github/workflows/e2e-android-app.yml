@@ -15,7 +15,6 @@ jobs:
   android-app:
     runs-on: ubuntu-latest
 
-
     steps:
       - name: ⬇️ Checkout Repository
         if: ${{ github.event_name != 'pull_request_target' }}
@@ -53,7 +52,7 @@ jobs:
         run: |
               pip install gdown
           
-              gdown "https://drive.google.com/file/d/1_Jn9BWXLmk1E8SPxwyee_8fFKM3S93-U" -O android.wdio.native.app.v1.0.8.apk
+              gdown "https://drive.google.com/uc?id=1cLMxQllTiVAkLyIbfdZPsHf1aKsZLozY" -O android.wdio.native.app.v1.0.8.apk
           
               ls -lh android.wdio.native.app.v1.0.8.apk
           
