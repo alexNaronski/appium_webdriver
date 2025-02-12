@@ -1,2 +1,4 @@
 node_modules/
-test/additional_specs/
+allure-report/
+allure-results/
+app/com.wildberries.ru_60800_rs.apk

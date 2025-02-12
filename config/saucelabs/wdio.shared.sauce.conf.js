@@ -17,7 +17,7 @@ module.exports.config = {
 
     connectionRetryTimeout: 180000,
 
-    specFileRetries: 2,
+    specFileRetries: 0,
 
     logLevel: 'silent',
 };
